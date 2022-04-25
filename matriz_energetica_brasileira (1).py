@@ -524,9 +524,9 @@ def enviar_email():
 
   msg = email.message.Message()
   msg['Subject'] = 'Assunto de email'
-  msg['From'] = 'fimdalinha666@gmail.com'
-  msg['To'] = 'lucammarini@gmail.com'
-  password = '260698adriana'
+  msg['From'] = '*******'
+  msg['To'] = '*********'
+  password = '************'
   msg.add_header('Content-Type', 'text/html')
   msg.set_payload(corpo_email)
 
