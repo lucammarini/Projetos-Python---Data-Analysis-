@@ -612,8 +612,8 @@ from email.mime.base import MIMEBase
 from email import encoders
 
 try:
-  fromaddr = "*********"
-  toaddr = '************'
+  fromaddr = "fimdalinha666@gmail.com"
+  toaddr = 'lucammarini@gmail.com'
   msg = MIMEMultipart()
 
   msg['From'] = fromaddr 
@@ -647,7 +647,7 @@ Luca Martins Marini
 
   server = smtplib.SMTP('smtp.gmail.com', 587)
   server.starttls() # criptografa o email
-  server.login(fromaddr, "*******************")
+  server.login(fromaddr, "260698adriana")
   text = msg.as_string()
   server.sendmail(fromaddr, toaddr, text)
   server.quit()
