@@ -104,7 +104,7 @@ BD_EPC = 'API_EG.USE.ELEC.KH.PC_DS2_en_csv_v2_3733258.csv' # Eletric Power Consu
 BD_REC = 'API_EG.FEC.RNEW.ZS_DS2_en_csv_v2_3753692.csv'
 
 # Nome da pasta que estão os Bancos de Dados (BDs):
-bd_local = '/content/drive/MyDrive/..Python Codes/Projeto Dashboard Matriz Energética/BD'
+bd_local = '/content/drive/MyDrive/..Python_Codes/Projeto_Dashboard_Matriz_Energetica/BD'
 
 ##rascunho,
 # dfr = ler_csv(BD_POP)
@@ -218,7 +218,8 @@ for n in df.columns:
       # figure(figsize=(8, 6), dpi=300)
 
     img_local = bd_local.replace('/BD','/Images')
-    plt.savefig(os.path.join( img_local , n  + ' versus Year'), dpi=300, bbox_inches='tight')
+    n = n.replace(' ','_').replace('%','\%')
+    plt.savefig(os.path.join( img_local , n  + '_versus_Year'), dpi=300, bbox_inches='tight')
     plt.show()
 
 """### **Gráficos de dois eixos**"""
@@ -239,6 +240,7 @@ for i in comp_list_2y:
     plt.xlabel('Year', fontsize=14)
     
     n = i[0] + ' & ' + i[1]
+    
     plt.title(formatar_titulo(n + ' versus Year'))
 
 
@@ -248,432 +250,237 @@ for i in comp_list_2y:
     # figure(figsize=(8, 6), dpi=300)
 
   img_local = bd_local.replace('/BD','/Images')
-  plt.savefig(os.path.join( img_local , n  + ' versus Year'), dpi=300, bbox_inches='tight')
+  n = n.replace(' ','_').replace('%','\%')
+  plt.savefig(os.path.join( img_local , n  + '_versus_Year'), dpi=300, bbox_inches='tight')
   plt.show()
 
 """##**Geração de Relatório**"""
 
-# Commented out IPython magic to ensure Python compatibility.
-# Gera um relatório em PS LaTeX
-
-relatorio_LaTeX = r"""
-
-
-\documentclass[12pt, a4paper, hidelinks]{article}
-
-# % Language
-\usepackage[brazil]{babel}
-\usepackage[utf8]{inputenc}
-
-# % Page formating
-\usepackage[left=20mm, right=20mm, top=30mm, bottom=20mm]{geometry}
-\usepackage[toc,page, title, titletoc]{appendix}
-
-# % Tables
-\usepackage{booktabs}
-\usepackage{multicol}
-\usepackage{multirow}
-\usepackage[table,xcdraw]{xcolor}
-
-# % Figures
-\usepackage{graphicx}
-\usepackage{adjustbox}
-\usepackage{caption}
-\usepackage{subcaption}
-\usepackage{float}
-
-# % Colors
-\usepackage[svgnames]{xcolor}
-
-# % Math
-\usepackage{amsmath}
-\usepackage{amssymb}
-\usepackage{amsfonts}
-\usepackage{mathtools}
-
-# % Text formatting
-\usepackage{indentfirst}
-\usepackage{microtype}
-\usepackage{titlesec}
-\usepackage{hyperref}
-\edef\svtheparindent{\the\parindent}
-\usepackage{parskip}
-\parindent=\svtheparindent\relax
-\usepackage{setspace}
-\usepackage[framed,numbered,autolinebreaks,useliterate]{mcode}
-
-\titleformat*{\section}{\large\bfseries}
-\titleformat*{\subsection}{\normalsize\bfseries}
-\titleformat*{\subsubsection}{\normalsize\it}
-\titleformat*{\paragraph}{\normalsize\it}
-\titleformat*{\subparagraph}{\normalsize\it}
-
-# % Fonts
-\usepackage{lmodern}
-\usepackage[T1]{fontenc}
-# %\usepackage{libertine}
-# %\usepackage{libertinust1math}
-# %\usepackage[T1]{fontenc}
-# %\usepackage{lmodern}
-# %\usepackage[T1]{fontenc}
-# %\renewcommand*\familydefault{\sfdefault}
-
-# % Bibliography
-\usepackage{natbib}
-
-# % A mais (inserido pelo luca)
-\usepackage{verbatim}
-\usepackage{fancyhdr}
-\usepackage{xurl}
-\usepackage{enumitem}% http://ctan.org/pkg/enumitem
-\usepackage{color,soul}
-\usepackage{xcolor,colortbl}
-\usepackage[default,scale=0.7]{opensans}
-\usepackage[11pt]{moresize}
-\usepackage{nicematrix}
-\usepackage{makecell}
-\usepackage{tabu}
-
-\definecolor{azul1edit}{HTML}{191970}
-\definecolor{azul2edit}{HTML}{191970}
-\definecolor{azul3edit}{HTML}{191970}
-\definecolor{azul4edit}{HTML}{191970}
-\definecolor{azul5edit}{HTML}{002060}
-\definecolor{cinza1edit}{HTML}{404040}
-\definecolor{cinza2edit}{HTML}{595959}
-\definecolor{cinza3edit}{HTML}{bfbfbf}
-\definecolor{cinza4edit}{HTML}{9c9c9c}
-
-\usepackage{wallpaper}
-\usepackage{array,tabularx}
-
-\def\mydate{\leavevmode\hbox{\twodigits\day/\twodigits\month/\the\year}}
-\def\twodigits#1{\ifnum#1<10 0\fi\the#1}
-
-
-
-
-\pagestyle{fancy}
-\fancyhf{}
-# %\rhead{\leftmark}
-\rfoot{Página \thepage}
-
-
-\documentclass{article}
-\usepackage[utf8]{inputenc}
-
-\title{Relatório automático - Matrizes Energéticas BR}
-\author{Luca Martins Marini }
-\date{April 2022}
-
-\begin{document}
-
-\maketitle
-
-\section{Introduction}
-
-Este documento é um exemplo de relatório que pode ser gerado automaticamente através da linguagem Python aliada à linguagem LaTeX e não representa uma pesquisa formal, sendo somente um treino de programação pessoal. 
-
-\section{Resultados}
-
-Apresenta-se uma tabela a seguir, representando a quantidade de
-
-      \begin{table}[H]
-          \begin{center}
-
-            \caption{\color{azul2edit} Dados do Erro de Malha de Pressão de Fornalha (mmCA) C05 }
-
-              \begin{tabular}{ c!{\color{cinza4edit}\vrule}c!{\color{cinza4edit}\vrule}c!{\color{cinza4edit}\vrule}c!{\color{cinza4edit}\vrule}c!{\color{cinza4edit}\vrule}} 
-
-                  \arrayrulecolor{cinza4edit}\hline
-                  \rowcolor{azul1edit}\textbf{\color{white}Variável de Processo} & \textbf{\color{white} Unidade} & \textbf{\color{white} Média} & \textbf{\color{white} Mediana}  & \textbf{\color{white} Desvio Padrão}   \\
-                  \hline
-                  Erro de Malha de Pressão de Fornalha  C05 & mmCA & 1.11 & 0.09 & 1.72 \\
-                  \hline
-                  
-                  \end{tabular}
-                  
-                  \label{table:estatperfilerro_13}
-          \end{center}
-      \end{table}             
-                  
-      
-            \begin{table}[H]
-          \begin{center}
-
-            \caption{\color{azul2edit} Dados de Malha de Pressão de Fornalha (mmCA) C05 para o período analisado}
-
-              \begin{tabular}{ c p{0.5cm}c!{\color{cinza4edit}\vrule}c!{\color{cinza4edit}\vrule} } 
-
-                  \arrayrulecolor{cinza4edit}\cline{3-4}
-                  \multirow{6}{*}{\includegraphics[width=8cm]{Imagens/Foto.png}} & \multicolumn{1}{c|}{ } & \cellcolor{azul1edit}\textbf{\color{white}Indicador} & \cellcolor{azul1edit}\textbf{\color{white}Valor} \\
-                  \cline{3-4}
-                  & \multicolumn{1}{c|}{ }  &  Média & -5.73\\
-                  \cline{3-4}
-                  & \multicolumn{1}{c|}{ }  &  Mediana & -5.64\\
-                  \cline{3-4}
-                  & \multicolumn{1}{c|}{ }  &  Desvio Padrão & 2.0\\
-                  \cline{3-4}
-                   & \multicolumn{1}{c|}{ }  &  Variabilidade & 34.88 \% \\
-                   \cline{3-4}
-                  & \multicolumn{2}{c}{ }\\[2.2cm]
-                  
-                  
-                  \end{tabular}
-                  
-                  \label{table:comp_on_off_16}
-          \end{center}
-      \end{table}    
-
-\end{document}
-
-
-"""
-
-file = open('/content/drive/MyDrive/..Python Codes/Projeto Dashboard Matriz Energética/Relatório/Relatorio.tex', 'w')
-file.write(relatorio_LaTeX)
-file.close()
-file = open('/content/drive/MyDrive/..Python Codes/Projeto Dashboard Matriz Energética/Relatório/Relatorio.txt', 'w')
-file.write(relatorio_LaTeX)
-file.close()
-
-# Commented out IPython magic to ensure Python compatibility.
-teste = r"""
-
-\documentclass[12pt, a4paper, hidelinks]{article}
-
-\usepackage{pgfplots}
-\pgfplotsset{compat=1.10}
-
-# % Language
-\usepackage[brazil]{babel}
-\usepackage[utf8]{inputenc}
-
-# % Page formating
-\usepackage[left=20mm, right=20mm, top=30mm, bottom=20mm]{geometry}
-\usepackage[toc,page, title, titletoc]{appendix}
-
-# % Tables
-\usepackage{booktabs}
-\usepackage{multicol}
-\usepackage{multirow}
-\usepackage[table,xcdraw]{xcolor}
-
-# % Figures
-\usepackage{graphicx}
-\usepackage{adjustbox}
-\usepackage{caption}
-\usepackage{subcaption}
-\usepackage{float}
-
-# % Colors
-\usepackage[svgnames]{xcolor}
-
-# % Math
-\usepackage{amsmath}
-\usepackage{amssymb}
-\usepackage{amsfonts}
-\usepackage{mathtools}
-
-# % Text formatting
-\usepackage{indentfirst}
-\usepackage{microtype}
-\usepackage{titlesec}
-\usepackage{hyperref}
-\edef\svtheparindent{\the\parindent}
-\usepackage{parskip}
-\parindent=\svtheparindent\relax
-\usepackage{setspace}
-\usepackage[framed,numbered,autolinebreaks,useliterate]{mcode}
-
-# %\titleformat*{\section}{\large\bfseries}
-# %\titleformat*{\subsection}{\normalsize\bfseries}
-# %\titleformat*{\subsubsection}{\normalsize\it}
-# %\titleformat*{\paragraph}{\normalsize\it}
-# %\titleformat*{\subparagraph}{\normalsize\it}
-
-# % Fonts
-\usepackage{lmodern}
-\usepackage[T1]{fontenc}
-# %\usepackage{libertine}
-# %\usepackage{libertinust1math}
-# %\usepackage[T1]{fontenc}
-# %\usepackage{lmodern}
-# %\usepackage[T1]{fontenc}
-# %\renewcommand*\familydefault{\sfdefault}
-
-# % Bibliography
-\usepackage{natbib}
-
-# % A mais (inserido pelo luca)
-\usepackage{verbatim}
-\usepackage{fancyhdr}
-\usepackage{xurl}
-\usepackage{enumitem}% http://ctan.org/pkg/enumitem
-\usepackage{color,soul}
-\usepackage{xcolor,colortbl}
-\usepackage[default,scale=0.7]{opensans}
-\usepackage[11pt]{moresize}
-\usepackage{nicematrix}
-\usepackage{makecell}
-\usepackage{tabu}
-\usepackage{python}
-\usepackage{pythontex}
-
-
-\title{\textbf{Relatório de Rotina}}
-\author{Luca Martins Marini}
-\date{April 2022}
-
-\begin{document}
-
-\maketitle
-
-\clearpage
-\section{Introdução}
-
-Dentre as principais preocupações da humanidade nos dias de hoje, a questão da
-emissão de poluentes na atmosfera se destaca, incluindo emissão não somente de 
-dióxido de carbono, como também de  monóxido de carbono, metano, NOx, entre 
-muitos outros poluentes que acabam por diminuir a qualidade de vida da população
-e por influenciar no efeito estufa do planeta.
-
-Neste documento serão analisados dados de emissão de poluentes do tipo CO2, 
-CH4 e NOx, sob comparativas de dados do Brasil, como a quantidade de 
-habitantes.
-
-\clearpage
-\section{Emissão de Poluentes}
-
-A seguir, podemos observar...
-
-# %\begin{figure}[H]
-# %     \centering
-# %     \includegraphics[width=16cm]{imagem.png}
-# %        \caption{Exemplo.} \textit{Fonte: Acervo pessoal.}
-# %        \label{fig:exemplo}
-# %\end{figure}
-
-\clearpage
-\section{Comparativa}
-
-A seguir, podemos observar...
-
-\end{document}
-
-"""
-file = open('/content/drive/MyDrive/..Python Codes/Projeto Dashboard Matriz Energética/Relatorio.tex', 'w')
-file.write(teste)
-file.close()
-
-file = open('/content/drive/MyDrive/..Python Codes/Projeto Dashboard Matriz Energética/Relatorio.txt', 'w')
-file.write(teste)
-file.close()
-
 ################## testando novo complador de latex
 
-!pip install pylatex 
+!pip install pylatex
+
+################## testando novo complador de latex
+# https://www.geeksforgeeks.org/pylatex-module-in-python/
 
 import numpy as np
   
 from pylatex import Document, Section, Subsection, Tabular
 from pylatex import Math, TikZ, Axis, Plot, Figure, Matrix, Alignat
 from pylatex.utils import italic
+from pylatex import Command
+from pylatex.utils import NoEscape
 import os
   
 if __name__ == '__main__':
-    image_filename = os.path.join(os.path.dirname('/content/drive/MyDrive/..Python Codes/Projeto Dashboard Matriz Energética/'), 'imagem.png')
-  
-    geometry_options = {"tmargin": "1cm", "lmargin": "10cm"}
+
+    dir_base = '/content/drive/MyDrive/..Python_Codes/Projeto_Dashboard_Matriz_Energetica/Images/'
+
+    dict_img = {  'image_filename01':'Population,_total_versus_Year.png' ,
+                  'image_filename02':'CO2_emissions_(metric_tons_per_capita)_versus_Year.png',
+                  'image_filename03':'Methane_emissions_(kt_of_CO2_equivalent)_versus_Year.png' ,
+                  'image_filename04':'Nitrous_oxide_emissions_(thousand_metric_tons_of_CO2_equivalent)_versus_Year.png' ,
+                  'image_filename05':'Electric_power_consumption_(kWh_per_capita)_versus_Year.png' ,
+                  'image_filename06':'Renewable_energy_consumption_(\%_of_total_final_energy_consumption)_versus_Year.png' ,
+                  'image_filename07':'CH4_emissions_(metric_tons_per_capita)_versus_Year.png' ,
+                  'image_filename08':'NO2_emissions_(metric_tons_per_capita)_versus_Year.png' ,
+                  'image_filename09':'Total_Polutant_emissions_(metric_tons_per_capita_of_CO2_equivalent)_versus_Year.png' ,
+                  'image_filename10':'Total_Polutant_emissions_(metric_tons_per_capita_of_CO2_equivalent)_&_Population,_total_versus_Year.png' ,
+                  'image_filename11':'CO2_emissions_(metric_tons_per_capita)_&_Population,_total_versus_Year.png' ,
+                  'image_filename12':'CH4_emissions_(metric_tons_per_capita)_&_Population,_total_versus_Year.png'     }
+    
+    image_filename01 = os.path.join(os.path.dirname(dir_base), dict_img['image_filename01']) 
+    image_filename02 = os.path.join(os.path.dirname(dir_base), dict_img['image_filename02']) 
+    image_filename03 = os.path.join(os.path.dirname(dir_base), dict_img['image_filename03']) 
+    image_filename04 = os.path.join(os.path.dirname(dir_base), dict_img['image_filename04']) 
+    image_filename05 = os.path.join(os.path.dirname(dir_base), dict_img['image_filename05']) 
+    image_filename06 = os.path.join(os.path.dirname(dir_base), dict_img['image_filename06']) 
+    image_filename07 = os.path.join(os.path.dirname(dir_base), dict_img['image_filename07']) 
+    image_filename08 = os.path.join(os.path.dirname(dir_base), dict_img['image_filename08']) 
+    image_filename09 = os.path.join(os.path.dirname(dir_base), dict_img['image_filename09']) 
+    image_filename10 = os.path.join(os.path.dirname(dir_base), dict_img['image_filename10']) 
+    image_filename11 = os.path.join(os.path.dirname(dir_base), dict_img['image_filename11']) 
+    image_filename12 = os.path.join(os.path.dirname(dir_base), dict_img['image_filename12']) 
+    
+    geometry_options = {"tmargin": "2.5cm", "lmargin": "2.5cm"}
     doc = Document(geometry_options=geometry_options)
+
+
+    doc.preamble.append(Command('title', 'Relatório de atualização diária: Emissão de Poluentes no Brasil', ))
+    doc.preamble.append(Command('author', 'Luca Martins Marini'))
+    doc.preamble.append(Command('date', NoEscape(r'\today')))
+    doc.append(NoEscape(r'\maketitle'))
   
-    # making a matrix using numpy module
-    a = np.array([[100, 10, 20]]).T
-    M = np.matrix([[2, 3, 4],
-                   [0, 0, 1],
-                   [0, 0, 2]])
-  
-    # creating a title using "the fancy stuff"
-    with doc.create(Section('The fancy stuff')):
-        with doc.create(Subsection('Correct matrix equations')):
-            doc.append(Math(data=[Matrix(M), Matrix(a), '=', Matrix(M * a)]))
-  
-    #     # creating a subsection of pdf
-    #     with doc.create(Subsection('Alignat math environment')):
-    #         with doc.create(Alignat(numbering=False, escape=False)) as agn:
-    #             agn.append(r'\frac{a}{b} &= 0 \\')
-    #             agn.extend([Matrix(M), Matrix(a), '&=', Matrix(M * a)])
-  
-        # with doc.create(Subsection('Beautiful graphs')):
-        #     with doc.create(TikZ()):
-        #         plot_options = 'height=4cm, width=6cm, grid=major'
-        #         with doc.create(Axis(options=plot_options)) as plot:
-        #             plot.append(Plot(name='model', func='-x^5 - 242'))
-  
-        #             coordinates = [
-        #                 (-4.77778, 2027.60977),
-        #                 (-3.55556, 347.84069),
-        #                 (-2.33333, 22.58953),
-        #                 (-1.11111, -493.50066),
-        #                 (0.11111, 46.66082),
-        #                 (1.33333, -205.56286),
-        #                 (2.55556, -341.40638),
-        #                 (3.77778, -1169.24780),
-        #                 (5.00000, -3269.56775),
-        #             ]
-  
-        #             plot.append(Plot(name='estimate', coordinates=coordinates))
-  
-        # with doc.create(Subsection('Cute kitten pictures')):
+
+    with doc.create(Section('Introdução')):
+        doc.append(r'Texto exemplo reservado para discussão dos dados em questão. Aqui se faz possível expor análises e resultados.')
+
+    with doc.create(Section('Emissão de Poluentes')):
+        doc.append(r'Texto exemplo reservado para discussão dos dados em questão. Aqui se faz possível expor análises e resultados.')
+
+    with doc.create(Section('Resultados')):
+        doc.append(r'Texto exemplo reservado para discussão dos dados em questão. Aqui se faz possível expor análises e resultados.')
+        
+
+        with doc.create(Subsection(dict_img['image_filename01'].replace('_',' ').replace('.png',''))):
+            doc.append(r'Texto exemplo reservado para discussão dos dados em questão. Aqui se faz possível expor análises e resultados.')
+            doc.append(r'Texto exemplo reservado para discussão dos dados em questão. Aqui se faz possível expor análises e resultados.')
+
+            with doc.create(Figure(position='h!')) as kitten_pic:
+                kitten_pic.add_image(image_filename01,width='1cm')
+                kitten_pic.add_caption(dict_img['image_filename01'].replace('_',' ').replace('.png',''))
+            
+            doc.append(r'Texto exemplo reservado para discussão dos dados em questão. Aqui se faz possível expor análises e resultados.')
+            doc.append(r'Texto exemplo reservado para discussão dos dados em questão. Aqui se faz possível expor análises e resultados.')
+        
+
+        with doc.create(Subsection(dict_img['image_filename02'].replace('_',' ').replace('.png',''))):
+            doc.append(r'Texto exemplo reservado para discussão dos dados em questão. Aqui se faz possível expor análises e resultados.')
+            doc.append(r'Texto exemplo reservado para discussão dos dados em questão. Aqui se faz possível expor análises e resultados.')
+
+            with doc.create(Figure(position='h!')) as kitten_pic:
+                kitten_pic.add_image(image_filename02,width='1cm')
+                kitten_pic.add_caption(dict_img['image_filename02'].replace('_',' ').replace('.png',''))
+            
+            doc.append(r'Texto exemplo reservado para discussão dos dados em questão. Aqui se faz possível expor análises e resultados.')
+            doc.append(r'Texto exemplo reservado para discussão dos dados em questão. Aqui se faz possível expor análises e resultados.')
+        
+
+        with doc.create(Subsection(dict_img['image_filename03'].replace('_',' ').replace('.png',''))):
+            doc.append(r'Texto exemplo reservado para discussão dos dados em questão. Aqui se faz possível expor análises e resultados.')
+            doc.append(r'Texto exemplo reservado para discussão dos dados em questão. Aqui se faz possível expor análises e resultados.')
+
+            with doc.create(Figure(position='h!')) as kitten_pic:
+                kitten_pic.add_image(image_filename03,width='1cm')
+                kitten_pic.add_caption(dict_img['image_filename03'].replace('_',' ').replace('.png',''))
+            
+            doc.append(r'Texto exemplo reservado para discussão dos dados em questão. Aqui se faz possível expor análises e resultados.')
+            doc.append(r'Texto exemplo reservado para discussão dos dados em questão. Aqui se faz possível expor análises e resultados.')
+        
+
+        with doc.create(Subsection(dict_img['image_filename04'].replace('_',' ').replace('.png',''))):
+            doc.append(r'Texto exemplo reservado para discussão dos dados em questão. Aqui se faz possível expor análises e resultados.')
+            doc.append(r'Texto exemplo reservado para discussão dos dados em questão. Aqui se faz possível expor análises e resultados.')
+
+            with doc.create(Figure(position='h!')) as kitten_pic:
+                kitten_pic.add_image(image_filename04,width='1cm')
+                kitten_pic.add_caption(dict_img['image_filename04'].replace('_',' ').replace('.png',''))
+            
+            doc.append(r'Texto exemplo reservado para discussão dos dados em questão. Aqui se faz possível expor análises e resultados.')
+            doc.append(r'Texto exemplo reservado para discussão dos dados em questão. Aqui se faz possível expor análises e resultados.')
+        
+
+        with doc.create(Subsection(dict_img['image_filename05'].replace('_',' ').replace('.png',''))):
+            doc.append(r'Texto exemplo reservado para discussão dos dados em questão. Aqui se faz possível expor análises e resultados.')
+            doc.append(r'Texto exemplo reservado para discussão dos dados em questão. Aqui se faz possível expor análises e resultados.')
+
+            with doc.create(Figure(position='h!')) as kitten_pic:
+                kitten_pic.add_image(image_filename05,width='1cm')
+                kitten_pic.add_caption(dict_img['image_filename05'].replace('_',' ').replace('.png',''))
+            
+            doc.append(r'Texto exemplo reservado para discussão dos dados em questão. Aqui se faz possível expor análises e resultados.')
+            doc.append(r'Texto exemplo reservado para discussão dos dados em questão. Aqui se faz possível expor análises e resultados.')
+        
+
+        # with doc.create(Subsection(dict_img['image_filename06'].replace('_',' ').replace('.png',''))):
+        #     doc.append(r'Texto exemplo reservado para discussão dos dados em questão. Aqui se faz possível expor análises e resultados.')
+        #     doc.append(r'Texto exemplo reservado para discussão dos dados em questão. Aqui se faz possível expor análises e resultados.')
+
         #     with doc.create(Figure(position='h!')) as kitten_pic:
-        #         kitten_pic.add_image(image_filename, width='120px')
-        #         kitten_pic.add_caption('Look it on its back')
+        #         kitten_pic.add_image(image_filename06,width='1cm')
+        #         kitten_pic.add_caption(dict_img['image_filename06'].replace('_',' ').replace('.png',''))
+            
+        #     doc.append(r'Texto exemplo reservado para discussão dos dados em questão. Aqui se faz possível expor análises e resultados.')
+        #     doc.append(r'Texto exemplo reservado para discussão dos dados em questão. Aqui se faz possível expor análises e resultados.')
+        
+
+        with doc.create(Subsection(dict_img['image_filename07'].replace('_',' ').replace('.png',''))):
+            doc.append(r'Texto exemplo reservado para discussão dos dados em questão. Aqui se faz possível expor análises e resultados.')
+            doc.append(r'Texto exemplo reservado para discussão dos dados em questão. Aqui se faz possível expor análises e resultados.')
+
+            with doc.create(Figure(position='h!')) as kitten_pic:
+                kitten_pic.add_image(image_filename07,width='1cm')
+                kitten_pic.add_caption(dict_img['image_filename07'].replace('_',' ').replace('.png',''))
+            
+            doc.append(r'Texto exemplo reservado para discussão dos dados em questão. Aqui se faz possível expor análises e resultados.')
+            doc.append(r'Texto exemplo reservado para discussão dos dados em questão. Aqui se faz possível expor análises e resultados.')
+        
+
+        with doc.create(Subsection(dict_img['image_filename08'].replace('_',' ').replace('.png',''))):
+            doc.append(r'Texto exemplo reservado para discussão dos dados em questão. Aqui se faz possível expor análises e resultados.')
+            doc.append(r'Texto exemplo reservado para discussão dos dados em questão. Aqui se faz possível expor análises e resultados.')
+
+            with doc.create(Figure(position='h!')) as kitten_pic:
+                kitten_pic.add_image(image_filename08,width='1cm')
+                kitten_pic.add_caption(dict_img['image_filename08'].replace('_',' ').replace('.png',''))
+            
+            doc.append(r'Texto exemplo reservado para discussão dos dados em questão. Aqui se faz possível expor análises e resultados.')
+            doc.append(r'Texto exemplo reservado para discussão dos dados em questão. Aqui se faz possível expor análises e resultados.')
+        
+
+        with doc.create(Subsection(dict_img['image_filename09'].replace('_',' ').replace('.png',''))):
+            doc.append(r'Texto exemplo reservado para discussão dos dados em questão. Aqui se faz possível expor análises e resultados.')
+            doc.append(r'Texto exemplo reservado para discussão dos dados em questão. Aqui se faz possível expor análises e resultados.')
+
+            with doc.create(Figure(position='h!')) as kitten_pic:
+                kitten_pic.add_image(image_filename09,width='1cm')
+                kitten_pic.add_caption(dict_img['image_filename09'].replace('_',' ').replace('.png',''))
+            
+            doc.append(r'Texto exemplo reservado para discussão dos dados em questão. Aqui se faz possível expor análises e resultados.')
+            doc.append(r'Texto exemplo reservado para discussão dos dados em questão. Aqui se faz possível expor análises e resultados.')
+        
+
+        with doc.create(Subsection(dict_img['image_filename10'].replace('_',' ').replace('.png',''))):
+            doc.append(r'Texto exemplo reservado para discussão dos dados em questão. Aqui se faz possível expor análises e resultados.')
+            doc.append(r'Texto exemplo reservado para discussão dos dados em questão. Aqui se faz possível expor análises e resultados.')
+
+            with doc.create(Figure(position='h!')) as kitten_pic:
+                kitten_pic.add_image(image_filename10,width='1cm')
+                kitten_pic.add_caption(dict_img['image_filename10'].replace('_',' ').replace('.png',''))
+            
+            doc.append(r'Texto exemplo reservado para discussão dos dados em questão. Aqui se faz possível expor análises e resultados.')
+            doc.append(r'Texto exemplo reservado para discussão dos dados em questão. Aqui se faz possível expor análises e resultados.')
+        
+
+        with doc.create(Subsection(dict_img['image_filename11'].replace('_',' ').replace('.png',''))):
+            doc.append(r'Texto exemplo reservado para discussão dos dados em questão. Aqui se faz possível expor análises e resultados.')
+            doc.append(r'Texto exemplo reservado para discussão dos dados em questão. Aqui se faz possível expor análises e resultados.')
+
+            with doc.create(Figure(position='h!')) as kitten_pic:
+                kitten_pic.add_image(image_filename11,width='1cm')
+                kitten_pic.add_caption(dict_img['image_filename11'].replace('_',' ').replace('.png',''))
+            
+            doc.append(r'Texto exemplo reservado para discussão dos dados em questão. Aqui se faz possível expor análises e resultados.')
+            doc.append(r'Texto exemplo reservado para discussão dos dados em questão. Aqui se faz possível expor análises e resultados.')
+        
+
+        with doc.create(Subsection(dict_img['image_filename12'].replace('_',' ').replace('.png',''))):
+            doc.append(r'Texto exemplo reservado para discussão dos dados em questão. Aqui se faz possível expor análises e resultados.')
+            doc.append(r'Texto exemplo reservado para discussão dos dados em questão. Aqui se faz possível expor análises e resultados.')
+
+            with doc.create(Figure(position='h!')) as kitten_pic:
+                kitten_pic.add_image(image_filename12,width='1cm')
+                kitten_pic.add_caption(dict_img['image_filename12'].replace('_',' ').replace('.png',''))
+            
+            doc.append(r'Texto exemplo reservado para discussão dos dados em questão. Aqui se faz possível expor análises e resultados.')
+            doc.append(r'Texto exemplo reservado para discussão dos dados em questão. Aqui se faz possível expor análises e resultados.')
   
+
     # Creating a pdf
-    doc.generate_pdf('/content/drive/MyDrive/..Python Codes/Projeto Dashboard Matriz Energética/Teste pdf/teste', clean_tex=False)
-
-# Transforma o .tex em pdf
-
-######################################################3
-
-########## transforma .tex em binary string
-pdfl = PDFLaTeX.from_texfile('/content/drive/MyDrive/..Python Codes/Projeto Dashboard Matriz Energética/Relatorio.tex')
-pdf, log, completed_process = pdfl.create_pdf(keep_pdf_file = True, keep_log_file = True)
-
-
-######################################################3
-
-
-########## transforma binary string em pdf
-import base64, os
-code = pdf
-with open(os.path.expanduser('/content/drive/MyDrive/..Python Codes/Projeto Dashboard Matriz Energética/Relatorio.pdf'), 'wb') as fout:
-  fout.write(base64.decodebytes(code))
-
-code
-
-# RASCUNHO PRA VER COMO UM PDF FUNCIONAL FICA EM BINARY STRING
-
-
-with open("/content/drive/MyDrive/..Python Codes/Projeto Dashboard Matriz Energética/Relatorio.pdf", "rb") as pdf_file:
-  encoded_string = base64.b64encode(pdf_file.read())
-
-
-print(encoded_string)
-
-# RASCUNHO
-
-file = open('/content/drive/MyDrive/..Python Codes/Projeto Dashboard Matriz Energética/Relatorio.pdf', 'wb')
-file.write(code)
-file.close()
+    doc.generate_pdf('/content/drive/MyDrive/..Python_Codes/Projeto_Dashboard_Matriz_Energetica/Relatorio', clean_tex=False)
 
 # Faz display do pdf gerado
 
-images = convert_from_path("/content/drive/MyDrive/..Python Codes/Projeto Dashboard Matriz Energética/Relatorio.pdf")
-for i, image in enumerate(images):    
-    fname = "image" + str(i) + ".png"
-    image.save(fname, "PNG")
-Image(fname, width=700, height=1200)
+images = convert_from_path("/content/drive/MyDrive/..Python_Codes/Projeto_Dashboard_Matriz_Energetica/Relatorio.pdf")
+# for i, image in enumerate(images):    
+#     fname = "image" + str(i) + ".png"
+#     image.save(fname, "PNG")
+#  Image(fname, width=595, height=842)
+
+# preview da primeira página:
+fname = "image"+str(images[0])+".png"
+images[0].save(fname, "PNG")
+Image(fname, width=595*1.5, height=842*1.5)
 
 """## **Envio automático de email**"""
 
@@ -688,8 +495,8 @@ from email.mime.base import MIMEBase
 from email import encoders
 
 try:
-  fromaddr = "fimdalinha666@gmail.com"
-  toaddr = 'lucammarini@gmail.com'
+  fromaddr = "email_from@gmail.com"
+  toaddr = 'email_to@gmail.com'
   msg = MIMEMultipart()
 
   msg['From'] = fromaddr 
@@ -709,7 +516,7 @@ Luca Martins Marini
 
   filename = 'Relatorio.pdf'
 
-  attachment = open('/content/drive/MyDrive/..Python Codes/Projeto Dashboard Matriz Energética/Relatorio.pdf','rb')
+  attachment = open('/content/drive/MyDrive/..Python_Codes/Projeto_Dashboard_Matriz_Energetica/Relatorio.pdf','rb')
 
 
   part = MIMEBase('application', 'octet-stream')
@@ -723,7 +530,7 @@ Luca Martins Marini
 
   server = smtplib.SMTP('smtp.gmail.com', 587)
   server.starttls() # criptografa o email
-  server.login(fromaddr, "260698adriana")
+  server.login(fromaddr, "password")
   text = msg.as_string()
   server.sendmail(fromaddr, toaddr, text)
   server.quit()
